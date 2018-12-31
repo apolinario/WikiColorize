@@ -1,7 +1,7 @@
 # WikiColorize bot
 
 ## What
-This is the source code for a Python bot that pull random images from Wikipedia, colorize them with ([@algorithmiaio](https://twitter.com/algorithmiaio "@algorithmiaio")) colorize machine learning algorithm, and post to Twitter ([@WikiColorize](https://twitter.com/WikiColorize "@WikiColorize"))
+This is the source code for a Python bot that pull random images from Wikipedia, colorize them with ([@algorithmiaio](https://github.com/algorithmiaio "@algorithmiaio")) colorize machine learning algorithm, and post to Twitter ([@WikiColorize](https://twitter.com/WikiColorize "@WikiColorize"))
 
 ## Why
 For fun. Deep learning is good at those kinds of tasks, Algorithmia has this Colorization Demo that can run without cost, only adding their watermark, Twitter is the right place for those kinds of bots, so the stars aligned.
