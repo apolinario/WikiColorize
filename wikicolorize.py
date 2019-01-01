@@ -25,14 +25,16 @@ def get_wikipedia_random(random_wiki_url):
 	if image_url and image_url[0] is not None and image_url[0].lower().endswith(('.jpg', '.jpeg')):
 		wiki_image = requests.get(image_url[0])
 		byte_image = Image.open(BytesIO(wiki_image.content))
-		image_path = 'bw.jpg'
-		byte_image.save('/a/web/path/'+image_path,format="JPEG") #Here you have to save the file in a path that can be accessed from the web (because of line 52)
+		bw_image_path = 'bw.jpg'
+		local_path = '/a/web/path/'
+		byte_image.save(local_path+bw_image_path,format="JPEG") #Here you have to save the file in a path that can be accessed from the web (because of line 52)
 		is_bw = is_bw_image(byte_image)
 		if is_bw:
 			if not is_document(byte_image):
-				colored_image = colorize_image(image_path)
-				if colored_image:
-					if tweet_image(colored_image,media_url,image_description,image_categories):
+				colored_image_path = colorize_image(bw_image_path)
+				bw_full_path = local_path+bw_image_path
+				if colored_image_path:
+					if tweet_image(colored_image_path,bw_full_path,media_url,image_description,image_categories):
 						return True
 					else:
 						return False
@@ -110,9 +112,19 @@ def twitter_api():
     return api
 
 #Tweets the image with the description and/or category
-def tweet_image(image, url, description, categories):
+def tweet_image(colored_image, bw_image, url, description, categories):
 	api = twitter_api()
-	api.update_with_media(image, status=categories[0]+' '+url)
+	
+	# upload images and get media_ids
+	filenames = [bw_image, colored_image]
+	media_ids = []
+	for filename in filenames:
+	     res = api.media_upload(filename)
+	     media_ids.append(res.media_id)
+
+	# tweet with multiple images
+	api.update_status(status=categories[0]+' '+url, media_ids=media_ids)
+	#api.update_with_media(image, status=categories[0]+' '+url)
 	return True
 
 random_wiki_url = 'http://commons.wikimedia.org/wiki/Special:Random/File'
