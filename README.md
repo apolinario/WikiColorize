@@ -11,7 +11,7 @@ For fun. Deep learning is good at those kinds of tasks, Algorithmia has this Col
 2. Checks if the WikiMedia file is an image (there is audio, PDF and other file formats that do not matter for this application there) - if not, go back to step 1
 3. Checks if it is black and white using `Pillow` to check if the image is monochrome - if not, go back to step 1
 4. (Optional Step) Tries to identify if the monochrome image looks like a scanned document using `pytesseract` OCR, if it does, go back to step 1. This step is here because if `Tesseract` doesn't recognize the image as a document, it is more likely that it is a photo
-5. Saves the photo and inputs it to [Algorithmia Colorization API](https://demos.algorithmia.com/colorize-photos/ "Algorithmia Colorization Demo API"), that uses Deep Learning to try to guess the right colors for a B&W image (you can see how this colorization works [here](http://richzhang.github.io/colorization/ "Colorful Image Colorization"), and returns the colorized photo
+5. Saves the photo and inputs it to [Algorithmia Colorization API](https://demos.algorithmia.com/colorize-photos/ "Algorithmia Colorization Demo API"), that uses Deep Learning to try to guess the right colors for a B&W image (you can see how this colorization works in a technical level [here](http://richzhang.github.io/colorization/ "Colorful Image Colorization")), and returns the colorized photo
 6. Tweets the colorized photo (with metadata and the URL)
 
 ### Limitations
