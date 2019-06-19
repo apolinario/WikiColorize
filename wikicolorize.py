@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import base64
 from lxml import html
 import requests
@@ -127,9 +130,10 @@ def tweet_image(colored_image, bw_image, url, description, categories):
 	#api.update_with_media(image, status=categories[0]+' '+url)
 	return True
 
-random_wiki_url = 'http://commons.wikimedia.org/wiki/Special:Random/File'
-get_wikipedia_random(random_wiki_url)
-while True:
-  converted = get_wikipedia_random(random_wiki_url)
-  if converted:
-    break
+if __name__ == "__main__":
+	random_wiki_url = 'http://commons.wikimedia.org/wiki/Special:Random/File'
+	get_wikipedia_random(random_wiki_url)
+	while True:
+	  converted = get_wikipedia_random(random_wiki_url)
+	  if converted:
+	    break
