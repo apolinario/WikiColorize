@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import base64
 from lxml import html
 import requests
@@ -6,6 +9,8 @@ from PIL import Image,ImageChops
 from io import BytesIO
 import pytesseract
 import tweepy
+import configparser
+
 
 #Gets a random wikipedia image and context
 def get_wikipedia_random(random_wiki_url):
@@ -99,17 +104,25 @@ def save_image(imgstring):
 	except:
 		return False
 
+#Read configuration file
+def read_config():
+	config = configparser.ConfigParser()
+	config.read('wikicolorize.config.ini')
+
+	return config['twitter']
+
 #Twitter API bureaucracy
 def twitter_api():
-    access_token = 'YOUR-ACCESS-TOKEN'
-    access_token_secret = 'YOUR-ACCESS-TOKEN-SECRET'
-    consumer_key = 'YOUR-CONSUMER-KEY'
-    consumer_secret = 'YOUR-CONSUMER-SECRET'
+	config = read_config()
+	access_token = config['twitter']['access_token']
+	access_token_secret = config['twitter']['access_token_secret']
+	consumer_key = config['twitter']['consumer_key']
+	consumer_secret = config['twitter']['consumer_secret']
 
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth)
-    return api
+	auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_token_secret)
+	api = tweepy.API(auth)
+	return api
 
 #Tweets the image with the description and/or category
 def tweet_image(colored_image, bw_image, url, description, categories):
@@ -119,17 +132,18 @@ def tweet_image(colored_image, bw_image, url, description, categories):
 	filenames = [bw_image, colored_image]
 	media_ids = []
 	for filename in filenames:
-	     res = api.media_upload(filename)
-	     media_ids.append(res.media_id)
+		 res = api.media_upload(filename)
+		 media_ids.append(res.media_id)
 
 	# tweet with multiple images
 	api.update_status(status=categories[0]+' '+url, media_ids=media_ids)
 	#api.update_with_media(image, status=categories[0]+' '+url)
 	return True
 
-random_wiki_url = 'http://commons.wikimedia.org/wiki/Special:Random/File'
-get_wikipedia_random(random_wiki_url)
-while True:
-  converted = get_wikipedia_random(random_wiki_url)
-  if converted:
-    break
+if __name__ == "__main__":
+	random_wiki_url = 'http://commons.wikimedia.org/wiki/Special:Random/File'
+	get_wikipedia_random(random_wiki_url)
+	while True:
+	  converted = get_wikipedia_random(random_wiki_url)
+	  if converted:
+	    break
