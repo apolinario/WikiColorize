@@ -1,4 +1,4 @@
-lxml==4.6.3
+lxml==4.6.5
 requests==2.21.0
 tweepy==3.7.0
 pytesseract==0.2.6
